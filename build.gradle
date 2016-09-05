@@ -1,0 +1,33 @@
+plugins {
+	id 'nebula.kotlin' version '1.0.3'
+	id 'ru.shadam.publish' version '0.2.0'
+}
+
+repositories {
+	mavenCentral()
+}
+
+publish {
+    description = 'Kotlin client for Telegram Bot Platform'
+	github 'saladinkzn', 'tgbot-api'
+	developerName = 'Timur Shakurov'
+	license = 'MIT'
+	licenseUrl = 'http://example.org'
+}
+
+dependencies {
+	compile 'org.slf4j:slf4j-api:1.7.18'
+
+	compile 'com.squareup.retrofit2:retrofit:2.0.2'
+	compile 'com.squareup.retrofit2:converter-jackson:2.0.0'
+	compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.7.1-2"
+	compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+
+	testCompile 'com.squareup.okhttp3:mockwebserver:3.3.1'
+	testCompile 'ch.qos.logback:logback-classic:1.1.7'
+}
+
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.0'
+}
