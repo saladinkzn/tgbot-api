@@ -1,9 +1,6 @@
-import java.nio.file.Paths
-
 pluginRepositories {
-  // mavenLocal
   maven {
-    url Paths.get(System.getProperty("user.home"), ".m2", "repository").toString()
+    url 'https://jcenter.bintray.com/'
   }
   gradlePluginPortal()
 }

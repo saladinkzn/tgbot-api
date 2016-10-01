@@ -1,6 +1,6 @@
 plugins {
 	id 'nebula.kotlin' version '1.0.3'
-	id 'ru.shadam.publish' version '0.2.0'
+	id 'ru.shadam.publish-plugin' version '0.2.0'
 }
 
 repositories {
