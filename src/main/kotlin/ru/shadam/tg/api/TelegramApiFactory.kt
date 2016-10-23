@@ -18,16 +18,22 @@ class TelegramApiFactory(
         private val objectMapper:ObjectMapper? = ObjectMapper().registerKotlinModule(),
         private val httpClient: OkHttpClient = createLoggingClient()
 ) {
-    fun createApi(token: String) : TelegramApi = Retrofit.Builder()
+    fun createApi(token: String, baseUrl: String) : TelegramApi =
+        Retrofit.Builder()
         .addConverterFactory(JacksonConverterFactory.create(objectMapper))
-        .baseUrl("https://api.telegram.org/bot$token/")
+        .baseUrl("$baseUrl/bot$token/")
         .client(httpClient)
         .build()
         .create(TelegramApi::class.java)
 }
 
 internal fun createLoggingClient(): OkHttpClient {
+    val loggingInterceptor = HttpLoggingInterceptor({
+        message -> logger.info(message)
+    }).apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
     return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor({ message -> logger.info(message) }).apply { level = HttpLoggingInterceptor.Level.BODY })
+            .addInterceptor(loggingInterceptor)
             .build()
 }

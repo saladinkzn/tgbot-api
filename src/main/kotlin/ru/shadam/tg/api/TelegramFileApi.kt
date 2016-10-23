@@ -21,9 +21,10 @@ internal interface InternalTelegramFileApi {
     ) : Call<ResponseBody>
 }
 
-internal fun createInternalTelegramFileApi(client: OkHttpClient = createLoggingClient()) = Retrofit.Builder()
+internal fun createInternalTelegramFileApi(client: OkHttpClient = createLoggingClient(), baseUrl: String) =
+        Retrofit.Builder()
         .addConverterFactory(JacksonConverterFactory.create(ObjectMapper().registerKotlinModule()))
-        .baseUrl("https://api.telegram.org/")
+        .baseUrl(baseUrl)
         .client(client)
         .build()
         .create(InternalTelegramFileApi::class.java)
@@ -36,4 +37,5 @@ internal class DefaultTelegramFileApi(private val api : InternalTelegramFileApi,
     override fun downloadFile(filePath: String): Array<Byte> = api.downloadFile(token, filePath).execute().body().bytes().toTypedArray()
 }
 
-fun createTelegramFileApi(token: String) : TelegramFileApi = DefaultTelegramFileApi(createInternalTelegramFileApi(), token)
+fun createTelegramFileApi(token: String, baseUrl: String) : TelegramFileApi =
+        DefaultTelegramFileApi(createInternalTelegramFileApi(baseUrl = baseUrl), token)
