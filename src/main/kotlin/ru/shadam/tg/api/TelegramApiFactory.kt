@@ -1,5 +1,6 @@
 package ru.shadam.tg.api
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import okhttp3.OkHttpClient
@@ -15,7 +16,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 private val logger : Logger = LoggerFactory.getLogger("telegramApi")
 
 class TelegramApiFactory(
-        private val objectMapper:ObjectMapper? = ObjectMapper().registerKotlinModule(),
+        private val objectMapper:ObjectMapper? = ObjectMapper().registerKotlinModule().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false),
         private val httpClient: OkHttpClient = createLoggingClient()
 ) {
     fun createApi(token: String, baseUrl: String) : TelegramApi =
