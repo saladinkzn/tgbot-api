@@ -17,26 +17,28 @@ interface TelegramApi {
     ) : Call<Response<List<Update>>>
 
     // --- sendMessage
-    @GET("sendMessage")
+    @POST("sendMessage")
+    @FormUrlEncoded
     fun sendMessage(
-            @Query("chat_id") chatId: Int,
-            @Query("text") text: String,
-            @Query("parse_mode") parseMode: ParseMode? = null,
-            @Query("disable_web_page_preview") disableWebPagePreview: Boolean? = null,
-            @Query("disable_notification") disableNotification: Boolean? = null,
-            @Query("reply_to_message_id") replyToMessageId: Int? = null,
-            @Query("reply_markup") replyMarkup: String? = null
+            @Field("chat_id") chatId: Int,
+            @Field("text") text: String,
+            @Field("parse_mode") parseMode: ParseMode? = null,
+            @Field("disable_web_page_preview") disableWebPagePreview: Boolean? = null,
+            @Field("disable_notification") disableNotification: Boolean? = null,
+            @Field("reply_to_message_id") replyToMessageId: Int? = null,
+            @Field("reply_markup") replyMarkup: String? = null
     ) : Call<Response<Message?>>
 
-    @GET("sendMessage")
+    @POST("sendMessage")
+    @FormUrlEncoded
     fun sendMessage(
-            @Query("chat_id") chatId: String,
-            @Query("text") text: String,
-            @Query("parse_mode") parseMode: ParseMode? = null,
-            @Query("disable_web_page_preview") disableWebPagePreview: Boolean? = null,
-            @Query("disable_notification") disableNotification: Boolean? = null,
-            @Query("reply_to_message_id") replyToMessageId: Int? = null,
-            @Query("reply_markup") replyMarkup: String? = null
+            @Field("chat_id") chatId: String,
+            @Field("text") text: String,
+            @Field("parse_mode") parseMode: ParseMode? = null,
+            @Field("disable_web_page_preview") disableWebPagePreview: Boolean? = null,
+            @Field("disable_notification") disableNotification: Boolean? = null,
+            @Field("reply_to_message_id") replyToMessageId: Int? = null,
+            @Field("reply_markup") replyMarkup: String? = null
     ) : Call<Response<Message?>>
 
     // -- forwardMessage
