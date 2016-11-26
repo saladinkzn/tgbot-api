@@ -1,5 +1,6 @@
 package ru.shadam.tg.api
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -33,7 +34,8 @@ data class Message(
         val supergroup_chat_created: Boolean?,
         val channel_chat_created: Boolean?,
         val migrate_to_chat_id: Int?,
-        val migrate_from_chat_id: Int?
+        val migrate_from_chat_id: Int?,
+        val entities: List<MessageEntity>?
 ) {
     val dateTime: LocalDateTime
         get() = LocalDateTime.ofEpochSecond(date.toLong(), 0, ZoneOffset.UTC)
@@ -133,5 +135,41 @@ data class ForceReply (
 enum class ParseMode {
     Markdown, HTML
 }
+
+data class MessageEntity(
+    val type: MessageEntityType,
+    val offset: Int,
+    val length: Int,
+    val url: String?,
+    val user: User?
+) {
+    fun getEntityText(text: String) = text.substring(offset, offset + length)
+}
+
+enum class MessageEntityType {
+    @JsonProperty("mention")
+    MENTION,
+    @JsonProperty("hashtag")
+    HASHTAG,
+    @JsonProperty("bot_command")
+    BOT_COMMAND,
+    @JsonProperty("url")
+    URL,
+    @JsonProperty("email")
+    EMAIL,
+    @JsonProperty("bold")
+    BOLD,
+    @JsonProperty("italic")
+    ITALIC,
+    @JsonProperty("code")
+    CODE,
+    @JsonProperty("pre")
+    PRE,
+    @JsonProperty("text_link")
+    TEXT_LINK,
+    @JsonProperty("text_mention")
+    TEXT_MENTION
+}
+
 
 
