@@ -3,6 +3,7 @@ package ru.shadam.tg.api
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.slf4j.Logger
@@ -28,13 +29,17 @@ class TelegramApiFactory(
         .create(TelegramApi::class.java)
 }
 
-internal fun createLoggingClient(): OkHttpClient {
+fun createLoggingClient(interceptors: List<Interceptor> = listOf()): OkHttpClient {
     val loggingInterceptor = HttpLoggingInterceptor({
         message -> logger.info(message)
     }).apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
-    return OkHttpClient.Builder()
+    val builder = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+
+    interceptors.forEach { builder.addInterceptor(it) }
+
+    return builder
             .build()
 }
