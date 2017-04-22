@@ -1,4 +1,4 @@
-pluginRepositories {
+pluginManagement.repositories {
   maven {
     url 'https://jcenter.bintray.com/'
   }
